@@ -22,3 +22,11 @@ tasks:
     cmds:
       - rm -f bin/homebox-export
       - rm -rf export/*
+
+  release:snapshot:
+    cmds:
+      - go run github.com/goreleaser/goreleaser --snapshot --clean --skip=publish
+
+  release:
+    cmds:
+      - go run github.com/goreleaser/goreleaser --clean

@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const Version = "1.0.0"
+const Version = "0.0.1"
 
 type App struct {
 	out io.Writer
@@ -29,7 +29,7 @@ func (a *App) Execute(args []string) error {
 		a.printHelp()
 		return nil
 	case "version", "-v", "--version":
-		fmt.Fprintf(a.out, "homebox-export version %s\n", Version)
+		fmt.Fprintf(a.out, "%s", versionInfo())
 		return nil
 	case "export":
 		return a.handleExport(args[1:])

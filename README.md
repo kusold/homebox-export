@@ -13,7 +13,7 @@ The exported files will be organized in the following structure:
 
 ```
 export/
-  Item Name_SHORTID/
+  ${ITEM_NAME}_${SHORT_ID}/
     attachment1.jpg
     attachment2.pdf
     ...
@@ -21,12 +21,17 @@ export/
 
 ## Installation
 
-### From Source
+### For Go Users
+This is recommended for users that already have go installed.
 
 ```bash
-git clone https://github.com/kusold/homebox-export
-cd homebox-export
-go build -o homebox-export ./cmd/homebox-export
+go install github.com/kusold/homebox-export/cmd/homebox-export@latest
+```
+
+### Via Docker
+
+```bash
+docker run --rm -it --env-file .env -v ./export:/export ghcr.io/kusold/homebox-export:latest
 ```
 
 ## Usage
@@ -45,8 +50,8 @@ Create a `.env` file:
 HOMEBOX_SERVER=http://homebox.local
 HOMEBOX_USER=admin
 HOMEBOX_PASS=secret
-HOMEBOX_OUTPUT=./my-backup
-HOMEBOX_PAGESIZE=50
+#HOMEBOX_OUTPUT=./my-backup
+#HOMEBOX_PAGESIZE=50
 ```
 
 Then run:
@@ -104,12 +109,11 @@ task clean
 
 ## License
 
-MIT
-
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -am 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. First open an issue to discuss what you would like to change. This prevents you from doing work that might not be accepted.
+2. Fork the repository
+3. Create your feature branch (`git checkout -b feature/amazing-feature`)
+4. Commit your changes (`git commit -am 'Add some amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
