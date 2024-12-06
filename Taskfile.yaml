@@ -1,0 +1,10 @@
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - task: build
+
+  build:
+    cmds:
+      - go build -o bin/homebox-export ./cmd/homebox-export
