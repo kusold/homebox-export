@@ -25,11 +25,11 @@ tasks:
 
   release:snapshot:
     cmds:
-      - go run github.com/goreleaser/goreleaser --snapshot --clean --skip=publish
+      - go run github.com/goreleaser/goreleaser/v2 --snapshot --clean --skip=publish
 
   release:
     cmds:
-      - go run github.com/goreleaser/goreleaser --clean
+      - go run github.com/goreleaser/goreleaser/v2 --clean
 
   validate:codecov:
     cmds:
