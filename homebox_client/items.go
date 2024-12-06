@@ -5,7 +5,6 @@ import (
 	"io"
 	"net/url"
 	"os"
-	"path/filepath"
 )
 
 type ItemsService struct {
@@ -50,33 +49,38 @@ func (s *ItemsService) Get(id string) (*Item, error) {
 	return &item, nil
 }
 
-func (s *ItemsService) GetAttachmentToken(itemID, attachmentID string) (*AttachmentToken, error) {
-	req, err := s.client.newRequest("GET", fmt.Sprintf("/v1/items/%s/attachments/%s", itemID, attachmentID), nil)
-	if err != nil {
-		return nil, err
-	}
+// func (s *ItemsService) GetAttachmentToken(itemID, attachmentID string) (*AttachmentToken, error) {
+// 	req, err := s.client.newRequest("GET", fmt.Sprintf("/v1/items/%s/attachments/%s", itemID, attachmentID), nil)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	var token AttachmentToken
-	if err := s.client.do(req, &token); err != nil {
-		return nil, err
-	}
+// 	var token AttachmentToken
+// 	if err := s.client.do(req, &token); err != nil {
+// 		return nil, err
+// 	}
 
-	return &token, nil
-}
+// 	return &token, nil
+// }
 
 func (s *ItemsService) DownloadAttachment(itemID, attachmentID string, destPath string) error {
-	token, err := s.GetAttachmentToken(itemID, attachmentID)
+	// token, err := s.GetAttachmentToken(itemID, attachmentID)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to get attachment token: %w", err)
+	// }
+
+	// u := *s.client.baseURL
+	// u.Path = filepath.Join(u.Path, "attachments", attachmentID)
+	// q := u.Query()
+	// q.Set("token", token.Token)
+	// u.RawQuery = q.Encode()
+
+	req, err := s.client.newRequest("GET", fmt.Sprintf("/v1/items/%s/attachments/%s", itemID, attachmentID), nil)
 	if err != nil {
-		return fmt.Errorf("failed to get attachment token: %w", err)
+		return err
 	}
 
-	u := *s.client.baseURL
-	u.Path = filepath.Join(u.Path, "attachments", attachmentID)
-	q := u.Query()
-	q.Set("token", token.Token)
-	u.RawQuery = q.Encode()
-
-	resp, err := s.client.httpClient.Get(u.String())
+	resp, err := s.client.httpClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("failed to download attachment: %w", err)
 	}

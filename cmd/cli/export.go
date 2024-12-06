@@ -19,7 +19,7 @@ func (a *App) handleExport(args []string) error {
 	cmd.StringVar(&config.ServerURL, "server", os.Getenv("HOMEBOX_SERVER"), "Homebox server URL (required)")
 	cmd.StringVar(&config.Username, "user", os.Getenv("HOMEBOX_USER"), "Username for authentication (required)")
 	cmd.StringVar(&config.Password, "pass", os.Getenv("HOMEBOX_PASS"), "Password for authentication (required)")
-	cmd.StringVar(&config.DownloadPath, "output", getEnvOrDefault("HOMEBOX_OUTPUT", "downloads"), "Output directory")
+	cmd.StringVar(&config.DownloadPath, "output", getEnvOrDefault("HOMEBOX_OUTPUT", "export"), "Output directory")
 	cmd.IntVar(&config.PageSize, "pagesize", getEnvIntOrDefault("HOMEBOX_PAGESIZE", 100), "Number of items per page")
 
 	if err := cmd.Parse(args); err != nil {

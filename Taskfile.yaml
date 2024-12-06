@@ -1,10 +1,24 @@
 version: "3"
 
+dotenv:
+  - .env
+
 tasks:
   default:
     cmds:
+      - task: clean
       - task: build
+      - task: run
+
+  run:
+    cmds:
+      - ./bin/homebox-export export -server ${HOMEBOX_SERVER} -user ${HOMEBOX_USER} -pass ${HOMEBOX_PASS} -output export
 
   build:
     cmds:
       - go build -o bin/homebox-export ./cmd/homebox-export
+
+  clean:
+    cmds:
+      - rm -f bin/homebox-export
+      - rm -rf export/*

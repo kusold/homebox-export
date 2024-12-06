@@ -1,6 +1,7 @@
 package downloader
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -67,8 +68,14 @@ func (d *Downloader) DownloadAll() error {
 }
 
 func (d *Downloader) processItems(items []homeboxclient.Item) error {
+	is := homeboxclient.NewItemsService(d.client)
+
 	for _, item := range items {
-		if err := d.processItem(item); err != nil {
+		fullItem, err := is.Get(item.ID)
+		if err != nil {
+			return err
+		}
+		if err := d.processItem(*fullItem); err != nil {
 			log.Printf("Error processing item %s (%s): %v", item.Name, item.ID, err)
 			continue
 		}
@@ -79,11 +86,24 @@ func (d *Downloader) processItems(items []homeboxclient.Item) error {
 func (d *Downloader) processItem(item homeboxclient.Item) error {
 	log.Printf("Processing item: %s (%s)", item.Name, item.ID)
 
-	for _, attachment := range item.Attachments {
-		filename := d.fileManager.GenerateFilename(item, attachment)
-		filepath := filepath.Join(d.config.DownloadPath, filename)
+	itemBytes, err := json.Marshal(item)
+	if err != nil {
+		log.Printf("Error marshaling item %s: %v", item.ID, err)
+	} else {
+		log.Printf("Item JSON: %s", string(itemBytes))
+	}
 
-		is := homeboxclient.NewItemsService(d.client)
+	is := homeboxclient.NewItemsService(d.client)
+	for _, attachment := range item.Attachments {
+		log.Println("Processing attachment:", attachment.ID)
+		subdirectory := d.fileManager.GenerateDirectory(item)
+		if err := os.MkdirAll(filepath.Join(d.config.DownloadPath, subdirectory), 0755); err != nil {
+			return fmt.Errorf("failed to create subdirectory: %w", err)
+		}
+
+		filename := d.fileManager.GenerateFilename(item, attachment)
+		filepath := filepath.Join(d.config.DownloadPath, subdirectory, filename)
+
 		if err := is.DownloadAttachment(item.ID, attachment.ID, filepath); err != nil {
 			return fmt.Errorf("failed to download attachment %s: %w", attachment.ID, err)
 		}

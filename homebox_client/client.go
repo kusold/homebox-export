@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"path"
+	"strings"
 )
 
 type Client struct {
@@ -54,6 +55,20 @@ func WithToken(token string) Option {
 
 func (c *Client) newRequest(method, pathname string, body interface{}) (*http.Request, error) {
 	u := *c.baseURL
+
+	if strings.Contains(pathname, "?") {
+		parts := strings.Split(pathname, "?")
+		pathname = parts[0]
+		if q, err := url.ParseQuery(parts[1]); err == nil {
+			query := u.Query()
+			for k, v := range q {
+				for _, val := range v {
+					query.Add(k, val)
+				}
+			}
+			u.RawQuery = query.Encode()
+		}
+	}
 	u.Path = path.Join(u.Path, "api", pathname)
 
 	var buf io.ReadWriter
@@ -75,7 +90,8 @@ func (c *Client) newRequest(method, pathname string, body interface{}) (*http.Re
 	}
 
 	if c.token != "" {
-		req.Header.Set("Authorization", "Bearer "+c.token)
+		// req.Header.Set("Authorization", "Bearer "+c.token)
+		req.Header.Set("Authorization", c.token)
 	}
 
 	return req, nil

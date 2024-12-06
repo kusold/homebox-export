@@ -28,7 +28,7 @@ type Item struct {
 	Quantity      int          `json:"quantity"`
 	PurchasePrice float64      `json:"purchasePrice"`
 	PurchaseFrom  string       `json:"purchaseFrom"`
-	PurchaseTime  time.Time    `json:"purchaseTime"`
+	PurchaseTime  string       `json:"purchaseTime"`
 	CreatedAt     time.Time    `json:"createdAt"`
 	UpdatedAt     time.Time    `json:"updatedAt"`
 	Notes         string       `json:"notes"`
