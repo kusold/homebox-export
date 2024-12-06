@@ -30,3 +30,7 @@ tasks:
   release:
     cmds:
       - go run github.com/goreleaser/goreleaser --clean
+
+  validate:codecov:
+    cmds:
+      - curl --data-binary @codecov.yaml https://codecov.io/validate

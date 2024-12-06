@@ -1,0 +1,15 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+
+ignore:
+  - "**/*_test.go"
+  - "homebox_client/*" # Long term plan is to generate this from the OpenAPI spec
+  - "cmd/homebox-export/main.go"
