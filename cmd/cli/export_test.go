@@ -96,56 +96,13 @@ func TestHandleExport(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Setup environment
-			originalEnv := make(map[string]string)
-			for k := range tt.env {
-				originalEnv[k] = os.Getenv(k)
-			}
-			for k, v := range tt.env {
-				os.Setenv(k, v)
-			}
-			defer func() {
-				// Restore original environment
-				for k, v := range originalEnv {
-					os.Setenv(k, v)
-				}
-			}()
+			defer setupTestEnvironment(tt.env)()
 
 			app := New()
 			_, err := app.parseConfig(tt.args)
-
-			// Check error conditions
-			if tt.wantErr {
-				if err == nil {
-					t.Error("handleExport() expected error but got none")
-					return
-				}
-				if tt.errMsg != "" && err.Error() != tt.errMsg {
-					t.Errorf("handleExport() error = %v, want %v", err, tt.errMsg)
-				}
-				return
-			}
-			if err != nil {
-				t.Errorf("handleExport() unexpected error: %v", err)
-			}
-
-			// Verify output directory was created
+			checkError(t, err, tt.wantErr, tt.errMsg)
 			if !tt.wantErr {
-				outputDir := tt.env["HOMEBOX_OUTPUT"]
-				if outputDir == "" {
-					for i, arg := range tt.args {
-						if arg == "-output" && i+1 < len(tt.args) {
-							outputDir = tt.args[i+1]
-							break
-						}
-					}
-					if outputDir == "" {
-						outputDir = "export" // default value
-					}
-				}
-
-				if _, err := os.Stat(outputDir); os.IsNotExist(err) {
-					t.Errorf("Output directory %s was not created", outputDir)
-				}
+				checkOutputDirectory(t, tt.env, tt.args)
 			}
 		})
 	}
@@ -234,4 +191,67 @@ func TestGetEnvIntOrDefault(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Helper function to setup test environment
+func setupTestEnvironment(env map[string]string) func() {
+	originalEnv := make(map[string]string)
+	for k := range env {
+		originalEnv[k] = os.Getenv(k)
+		os.Setenv(k, env[k])
+	}
+
+	// Return cleanup function
+	return func() {
+		for k, v := range originalEnv {
+			os.Setenv(k, v)
+		}
+	}
+}
+
+// Helper function to check error conditions
+func checkError(t *testing.T, err error, wantErr bool, errMsg string) {
+	t.Helper()
+
+	if wantErr {
+		if err == nil {
+			t.Error("handleExport() expected error but got none")
+			return
+		}
+		if errMsg != "" && err.Error() != errMsg {
+			t.Errorf("handleExport() error = %v, want %v", err, errMsg)
+		}
+		return
+	}
+	if err != nil {
+		t.Errorf("handleExport() unexpected error: %v", err)
+	}
+}
+
+// Helper function to check output directory
+func checkOutputDirectory(t *testing.T, env map[string]string, args []string) {
+	t.Helper()
+
+	outputDir := getOutputDirectory(env, args)
+	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+		t.Errorf("Output directory %s was not created", outputDir)
+	}
+}
+
+// Helper function to get output directory
+func getOutputDirectory(env map[string]string, args []string) string {
+	// Check environment variable first
+	if outputDir := env["HOMEBOX_OUTPUT"]; outputDir != "" {
+		return outputDir
+	}
+
+	// Check command line arguments
+	for i, arg := range args {
+		if arg == "-output" && i+1 < len(args) {
+			return args[i+1]
+		}
+	}
+
+	// Return default value
+	return "export"
 }
