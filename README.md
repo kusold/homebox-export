@@ -1,4 +1,6 @@
 # homebox-export
+[![Build status](https://img.shields.io/github/actions/workflow/status/kusold/homebox-export/test.yml?style=for-the-badge&branch=main)](https://github.com/kusold/homebox-export/actions?workflow=test)
+[![Codecov branch](https://img.shields.io/codecov/c/github/kusold/homebox-export/main.svg?style=for-the-badge)](https://codecov.io/gh/kusold/homebox-export)
 
 A command-line tool to export attachments from a [Homebox](https://hay-kot.github.io/homebox/) instance.
 
