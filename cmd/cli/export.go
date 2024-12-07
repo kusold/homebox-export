@@ -10,7 +10,7 @@ import (
 	"github.com/kusold/homebox-export/internal/downloader"
 )
 
-func (a *App) handleExport(args []string) error {
+func (a *App) parseConfig(args []string) (config.Config, error) {
 	cmd := flag.NewFlagSet("export", flag.ExitOnError)
 
 	var config config.Config
@@ -23,18 +23,27 @@ func (a *App) handleExport(args []string) error {
 	cmd.IntVar(&config.PageSize, "pagesize", getEnvIntOrDefault("HOMEBOX_PAGESIZE", 100), "Number of items per page")
 
 	if err := cmd.Parse(args); err != nil {
-		return err
+		return config, err
 	}
 
 	// Validate required flags
 	if config.ServerURL == "" {
-		return fmt.Errorf("server URL is required")
+		return config, fmt.Errorf("server URL is required")
 	}
 	if config.Username == "" {
-		return fmt.Errorf("username is required")
+		return config, fmt.Errorf("username is required")
 	}
 	if config.Password == "" {
-		return fmt.Errorf("password is required")
+		return config, fmt.Errorf("password is required")
+	}
+	return config, nil
+}
+
+func (a *App) handleExport(args []string) error {
+
+	config, err := a.parseConfig(args)
+	if err != nil {
+		return fmt.Errorf("failed to parse config: %w", err)
 	}
 
 	d, err := downloader.New(config)
