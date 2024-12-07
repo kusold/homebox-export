@@ -5,6 +5,7 @@ go 1.23.3
 require (
 	github.com/goreleaser/goreleaser/v2 v2.4.8
 	github.com/oapi-codegen/oapi-codegen/v2 v2.4.1
+	github.com/opencontainers/runc v1.2.0 // indirect; Security Patch -- Remove whenever
 )
 
 require (
@@ -230,7 +231,6 @@ require (
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
-	github.com/opencontainers/runc v1.2.0-rc.1 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pborman/uuid v1.2.1 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
