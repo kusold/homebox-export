@@ -11,7 +11,7 @@ import (
 	"github.com/kusold/homebox-export/internal/config"
 )
 
-// Mock client implementation
+// Test helpers and common structures
 type mockClient struct {
 	loginFunc func(username, password string) (*homeboxclient.TokenResponse, error)
 }
@@ -23,7 +23,6 @@ func (m *mockClient) Login(username, password string) (*homeboxclient.TokenRespo
 	return &homeboxclient.TokenResponse{Token: "test-token"}, nil
 }
 
-// Mock ItemsService implementation
 type mockItemsService struct {
 	listFunc               func(page, pageSize int) (*homeboxclient.PaginationResult[homeboxclient.Item], error)
 	getFunc                func(id string) (*homeboxclient.Item, error)
@@ -51,6 +50,35 @@ func (m *mockItemsService) DownloadAttachment(itemID, attachmentID, destPath str
 	return nil
 }
 
+// Helper functions
+func createTestItem() homeboxclient.Item {
+	return homeboxclient.Item{
+		ID:   "test123",
+		Name: "Test Item",
+		Attachments: []homeboxclient.Attachment{
+			{
+				ID: "att123",
+				Document: homeboxclient.DocumentOut{
+					Title: "test.txt",
+				},
+				CreatedAt: time.Now(),
+				UpdatedAt: time.Now(),
+			},
+		},
+	}
+}
+
+func createTestConfig(tempDir string) config.Config {
+	return config.Config{
+		ServerURL:    "http://localhost",
+		Username:     "test",
+		Password:     "test",
+		DownloadPath: tempDir,
+		PageSize:     100,
+	}
+}
+
+// Tests
 func TestNew(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -59,13 +87,8 @@ func TestNew(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "valid configuration",
-			config: config.Config{
-				ServerURL:    "http://localhost",
-				Username:     "test",
-				Password:     "test",
-				DownloadPath: t.TempDir(),
-			},
+			name:   "valid configuration",
+			config: createTestConfig(t.TempDir()),
 			mock: &mockClient{
 				loginFunc: func(username, password string) (*homeboxclient.TokenResponse, error) {
 					return &homeboxclient.TokenResponse{Token: "test-token"}, nil
@@ -115,21 +138,7 @@ func TestNew(t *testing.T) {
 func TestDownloader_DownloadAll(t *testing.T) {
 	tempDir := t.TempDir()
 
-	testItem := homeboxclient.Item{
-		ID:   "test123",
-		Name: "Test Item",
-		Attachments: []homeboxclient.Attachment{
-			{
-				ID: "att123",
-				Document: homeboxclient.DocumentOut{
-					Title: "test.txt",
-				},
-				CreatedAt: time.Now(),
-				UpdatedAt: time.Now(),
-			},
-		},
-	}
-
+	testItem := createTestItem()
 	tests := []struct {
 		name      string
 		config    config.Config
@@ -138,14 +147,8 @@ func TestDownloader_DownloadAll(t *testing.T) {
 		wantFiles []string
 	}{
 		{
-			name: "successful download",
-			config: config.Config{
-				ServerURL:    "http://localhost",
-				Username:     "test",
-				Password:     "test",
-				DownloadPath: tempDir,
-				PageSize:     100,
-			},
+			name:   "successful download",
+			config: createTestConfig(tempDir),
 			mock: &mockItemsService{
 				listFunc: func(page, pageSize int) (*homeboxclient.PaginationResult[homeboxclient.Item], error) {
 					if page == 1 {
@@ -169,14 +172,8 @@ func TestDownloader_DownloadAll(t *testing.T) {
 			wantFiles: []string{"test.txt"},
 		},
 		{
-			name: "list error",
-			config: config.Config{
-				ServerURL:    "http://localhost",
-				Username:     "test",
-				Password:     "test",
-				DownloadPath: tempDir,
-				PageSize:     100,
-			},
+			name:   "list error",
+			config: createTestConfig(tempDir),
 			mock: &mockItemsService{
 				listFunc: func(page, pageSize int) (*homeboxclient.PaginationResult[homeboxclient.Item], error) {
 					return nil, errors.New("list error")
@@ -185,14 +182,8 @@ func TestDownloader_DownloadAll(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "download error",
-			config: config.Config{
-				ServerURL:    "http://localhost",
-				Username:     "test",
-				Password:     "test",
-				DownloadPath: tempDir,
-				PageSize:     100,
-			},
+			name:   "download error",
+			config: createTestConfig(tempDir),
 			mock: &mockItemsService{
 				listFunc: func(page, pageSize int) (*homeboxclient.PaginationResult[homeboxclient.Item], error) {
 					if page == 1 {
@@ -256,19 +247,7 @@ func TestDownloader_DownloadAll(t *testing.T) {
 
 func TestDownloader_processItems(t *testing.T) {
 	tempDir := t.TempDir()
-	testItem := homeboxclient.Item{
-		ID:   "test123",
-		Name: "Test Item",
-		Attachments: []homeboxclient.Attachment{
-			{
-				ID: "att123",
-				Document: homeboxclient.DocumentOut{
-					Title: "test.txt",
-				},
-			},
-		},
-	}
-
+	testItem := createTestItem()
 	tests := []struct {
 		name    string
 		items   []homeboxclient.Item
@@ -303,12 +282,7 @@ func TestDownloader_processItems(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			client := &mockClient{}
-			d, err := New(config.Config{
-				ServerURL:    "http://localhost",
-				Username:     "user",
-				Password:     "pass",
-				DownloadPath: tempDir,
-			}, WithHomeboxClient(client), WithItemService(tt.mock))
+			d, err := New(createTestConfig(tempDir), WithHomeboxClient(client), WithItemService(tt.mock))
 			if err != nil {
 				t.Fatalf("Failed to create downloader: %v", err)
 			}
