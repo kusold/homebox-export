@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/goreleaser/goreleaser/v2 v2.8.2
-	github.com/oapi-codegen/oapi-codegen/v2 v2.5.0
+	github.com/oapi-codegen/oapi-codegen/v2 v2.5.1
 	github.com/opencontainers/runc v1.2.0 // indirect; Security Patch -- Remove whenever
 )
 
@@ -138,7 +138,7 @@ require (
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
-	github.com/getkin/kin-openapi v0.132.0 // indirect
+	github.com/getkin/kin-openapi v0.133.0 // indirect
 	github.com/github/smimesign v0.2.0 // indirect
 	github.com/go-chi/chi v4.1.2+incompatible // indirect
 	github.com/go-fed/httpsig v1.1.0 // indirect
@@ -291,6 +291,7 @@ require (
 	github.com/wagoodman/go-progress v0.0.0-20230925121702-07e42b3cdba0 // indirect
 	github.com/whyrusleeping/cbor-gen v0.2.1-0.20241030202151-b7a6831be65e // indirect
 	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
+	github.com/woodsbury/decimal128 v1.3.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	gitlab.com/digitalxero/go-conventional-commit v1.0.7 // indirect
