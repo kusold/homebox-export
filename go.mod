@@ -2,7 +2,7 @@ module github.com/kusold/homebox-export
 
 go 1.24
 
-toolchain go1.24.1
+toolchain go1.25.4
 
 require (
 	github.com/goreleaser/goreleaser/v2 v2.8.2
