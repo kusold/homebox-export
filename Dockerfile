@@ -1,19 +1,20 @@
 FROM alpine:3.22
+ARG TARGETPLATFORM
 # Add basic security through non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Install necessary runtime dependencies
 RUN apk add --no-cache \
-    ca-certificates \
-    tzdata \
-    && update-ca-certificates
+	ca-certificates \
+	tzdata \
+	&& update-ca-certificates
 
 # Create necessary directories with proper permissions
 RUN mkdir /app /export \
-    && chown -R appuser:appgroup /app /export
+	&& chown -R appuser:appgroup /app /export
 
 # Copy binary from goreleaser
-COPY --chown=appuser:appgroup homebox-export /app/homebox-export
+COPY --chown=appuser:appgroup ${TARGETPLATFORM}/homebox-export /app/homebox-export
 
 # Switch to non-root user
 USER appuser:appgroup
@@ -26,10 +27,10 @@ VOLUME ["/export"]
 
 # Environment variables with defaults
 ENV HOMEBOX_SERVER="" \
-    HOMEBOX_USER="" \
-    HOMEBOX_PASS="" \
-    HOMEBOX_OUTPUT="/export" \
-    HOMEBOX_PAGESIZE="100"
+	HOMEBOX_USER="" \
+	HOMEBOX_PASS="" \
+	HOMEBOX_OUTPUT="/export" \
+	HOMEBOX_PAGESIZE="100"
 
 # Set entrypoint and default command
 ENTRYPOINT ["/app/homebox-export"]
