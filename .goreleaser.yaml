@@ -24,24 +24,27 @@ builds:
       - -X main.date={{.Date}}
     mod_timestamp: "{{ .CommitTimestamp }}"
 
-dockers:
+dockers_v2:
   - dockerfile: Dockerfile
-    image_templates:
-      - "ghcr.io/kusold/homebox-export:v{{ .Version }}"
-      - "ghcr.io/kusold/homebox-export:v{{ .Major }}"
-      - "ghcr.io/kusold/homebox-export:v{{ .Major }}.{{ .Minor }}"
-      - "ghcr.io/kusold/homebox-export:latest"
-    use: docker
-    build_flag_templates:
-      - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
+    images:
+      - "ghcr.io/kusold/homebox-export"
+    tags:
+      - "v{{ .Version }}"
+      - "v{{ .Major }}"
+      - "v{{ .Major }}.{{ .Minor }}"
+      - "latest"
+    labels:
+      "org.opencontainers.image.created": "{{.Date}}"
+      "org.opencontainers.image.title": "{{.ProjectName}}"
+      "org.opencontainers.image.name": "{{.ProjectName}}"
+      "org.opencontainers.image.revision": "{{.FullCommit}}"
+      "org.opencontainers.image.version": "{{.Version}}"
+      "org.opencontainers.image.source": "{{.GitURL}}"
     extra_files: []
 
 archives:
-  - format: tar.gz
+  - formats:
+      - tar.gz
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
@@ -50,7 +53,8 @@ archives:
       {{- else }}{{ .Arch }}{{ end }}
     format_overrides:
       - goos: windows
-        format: zip
+        formats:
+          - "zip"
 
 checksum:
   name_template: "checksums.txt"
