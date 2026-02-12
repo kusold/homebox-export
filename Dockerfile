@@ -1,4 +1,4 @@
-FROM alpine:3.22
+FROM alpine:3.23
 ARG TARGETPLATFORM
 # Add basic security through non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
