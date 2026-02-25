@@ -3,7 +3,7 @@ module github.com/kusold/homebox-export
 go 1.26.0
 
 require (
-	github.com/goreleaser/goreleaser/v2 v2.14.0
+	github.com/goreleaser/goreleaser/v2 v2.14.1
 	github.com/oapi-codegen/oapi-codegen/v2 v2.5.1
 )
 
