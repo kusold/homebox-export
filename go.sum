@@ -582,6 +582,7 @@ github.com/goreleaser/goreleaser/v2 v2.14.2/go.mod h1:SwLkOW08wkAwwqE+LL7slv/kBy
 github.com/goreleaser/goreleaser/v2 v2.14.3/go.mod h1:SwLkOW08wkAwwqE+LL7slv/kBywzKMNUjecvwX2jR+k=
 github.com/goreleaser/goreleaser/v2 v2.15.0/go.mod h1:aOoCuxpkY7ftpzfZRXp/wHTmWrdNfZN4hW1VuOaHS5Q=
 github.com/goreleaser/goreleaser/v2 v2.15.1/go.mod h1:yow7MCKl0k4TBIoqGTj3MGReYJq6oFqJSjeVgGiKsMw=
+github.com/goreleaser/goreleaser/v2 v2.15.2/go.mod h1:yow7MCKl0k4TBIoqGTj3MGReYJq6oFqJSjeVgGiKsMw=
 github.com/goreleaser/nfpm/v2 v2.45.0 h1:rTqqX/vqvln4x7B2HmPL57gh21iIMqyxzP8goI3Jv+Y=
 github.com/goreleaser/nfpm/v2 v2.45.0/go.mod h1:O0h9bB68D39NTnM9rSOJhVCYxQk7sU8i04q2bzczFdk=
 github.com/goreleaser/nfpm/v2 v2.45.2/go.mod h1:NxYAJCKAuq8NpL57WvL39xIK39/1jViS9hD6MDwKTgw=
