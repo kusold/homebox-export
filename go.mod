@@ -232,7 +232,7 @@ require (
 	github.com/sigstore/sigstore v1.10.5 // indirect
 	github.com/sirupsen/logrus v1.9.4 // indirect
 	github.com/skeema/knownhosts v1.3.1 // indirect
-	github.com/slack-go/slack v0.22.0 // indirect
+	github.com/slack-go/slack v0.23.1 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/speakeasy-api/jsonpath v0.6.3 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
