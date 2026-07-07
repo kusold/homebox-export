@@ -4,7 +4,7 @@ go 1.26.4
 
 require (
 	github.com/goreleaser/goreleaser/v2 v2.17.0
-	github.com/oapi-codegen/oapi-codegen/v2 v2.7.1
+	github.com/oapi-codegen/oapi-codegen/v2 v2.7.2
 )
 
 require (
