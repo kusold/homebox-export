@@ -4,7 +4,7 @@ go 1.27.4
 
 require (
 	github.com/goreleaser/goreleaser/v2 v2.20.3
-	github.com/oapi-codegen/oapi-codegen/v2 v2.8.2
+	github.com/oapi-codegen/oapi-codegen/v2 v2.9.0
 )
 
 require (
@@ -134,7 +134,7 @@ require (
 	github.com/felixge/httpsnoop v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.15 // indirect
-	github.com/getkin/kin-openapi v0.149.0 // indirect
+	github.com/getkin/kin-openapi v0.153.0 // indirect
 	github.com/github/smimesign v0.2.0 // indirect
 	github.com/go-fed/httpsig v1.1.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
@@ -246,8 +246,8 @@ require (
 	github.com/multiformats/go-multibase v0.2.0 // indirect
 	github.com/multiformats/go-multihash v0.2.3 // indirect
 	github.com/multiformats/go-varint v0.0.7 // indirect
-	github.com/oasdiff/yaml v0.1.1 // indirect
-	github.com/oasdiff/yaml3 v0.0.14 // indirect
+	github.com/oasdiff/yaml v0.1.3 // indirect
+	github.com/oasdiff/yaml3 v0.0.16 // indirect
 	github.com/oklog/ulid/v2 v2.1.2 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
@@ -320,18 +320,18 @@ require (
 	go.uber.org/zap v1.28.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.6 // indirect
-	go.yaml.in/yaml/v4 v4.0.0-rc.6 // indirect
+	go.yaml.in/yaml/v4 v4.0.0 // indirect
 	gocloud.dev v0.47.0 // indirect
 	golang.org/x/crypto v0.59.0 // indirect
 	golang.org/x/mod v0.43.0 // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/oauth2 v0.38.0 // indirect
 	golang.org/x/sync v0.25.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/term v0.48.0 // indirect
 	golang.org/x/text v0.44.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
-	golang.org/x/tools v0.52.0 // indirect
+	golang.org/x/tools v0.53.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	google.golang.org/api v0.308.0 // indirect
 	google.golang.org/genproto v0.0.0-20261012220534-4341edf3f941 // indirect
